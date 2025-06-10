@@ -8,30 +8,23 @@ import DisplayBalances from './components/DisplayBalances';
 import { useEffect, useState } from 'react';
 import EntryLines from './components/EntryLines';
 import ModalEdit from './components/ModalEdit';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllEntries } from './actions/entries.actions';
+//import axios from 'axios';
+// import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 function App() {
-  const[entries, setEntries] = useState(initialEntries);
-  const[desc, setDesc] = useState('');
-  const[value, setValue] = useState('');
-  const[isExp, setIsExp] = useState(true);
-  const[isOpen, setIsOpen] = useState(false);
-  const[entryId, setEntryId] = useState();
   const[incomeTotal, setIncomeTotal] = useState(0);
   const[expenseTotal, setExpenseTotal] = useState(0);
   const[total, setTotal] = useState(0);
+  const [entry, setEntry] = useState();
+  const {isOpen, id} = useSelector((state) => state.modals);
+  const entries = useSelector((state) => state.entries);
 
   useEffect(() =>{
-    if(!isOpen && entryId){
-      const index = entries.findIndex((entry) => entry.id === entryId);
-      const newEntries = [...entries];
-      newEntries[index].desc = desc;
-      newEntries[index].value = value;
-      newEntries[index].isExp = isExp;
-      setEntries(newEntries);
-      resetEntry();
-    }
-      //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+    const index = entries.findIndex(entry => entry.id === id)
+    setEntry(entries[index]);
+  }, [isOpen, id, entries]);
 
   useEffect(() => {
     let totalIncomes = 0;
@@ -51,38 +44,11 @@ function App() {
       setIncomeTotal(totalIncomes);
   }, [entries]);
 
-  function deleteEntry(id){
-    const result = entries.filter(entry => entry.id !== id);
-    console.log("entries", entries);
-    console.log('result', result);
-    setEntries(result);
-  }
+   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllEntries());
+  },[dispatch]);
 
-  function editEntry(id){
-    //debugger;
-    console.log(`Opened Edit with ID : ${id}`);
-    if(id){
-      const index = entries.findIndex(entry => entry.id === id);
-      const entry = entries[index];
-      setEntryId(id);
-      setDesc(entry.desc);
-      setValue(entry.value);
-      setIsExp(entry.isExp);
-      setIsOpen(true);
-    }
-  }
-
-  function addEntry(){
-    const result = entries.concat({id : entries.length+1, desc, value, isExp});
-    setEntries(result);
-    resetEntry();
-  }
-
-  function resetEntry(){
-    setDesc('');
-    setValue('');
-    setIsExp(true);
-  }
 
   return (
     <Container>
@@ -93,58 +59,15 @@ function App() {
       <DisplayBalances incomeTotal = {incomeTotal} expenseTotal = {expenseTotal}/>
 
       <MainHeader title = 'History' type = 'h3' />
-      <EntryLines entries = {entries} deleteEntry = {deleteEntry} editEntry = {editEntry}/>
+      <EntryLines entries = {entries} />
       {/* <EntryLine desc = {entries[0].desc} value = {entries[0].desc} isExp = {entries[0].isExp}/> */}
 
       <MainHeader title = 'Add New Transaction' type = 'h3' />
-      <NewEntryForm  
-        addEntry = {addEntry} 
-        desc = {desc}
-        value = {value}
-        isExp = {isExp}
-        setDesc = {setDesc}
-        setValue = {setValue}
-        setIsExp = {setIsExp}
-      />
+      <NewEntryForm />
       <ModalEdit 
-        isOpen={isOpen} 
-        setIsOpen={setIsOpen}        
-        addEntry = {addEntry} 
-        desc = {desc}
-        value = {value}
-        isExp = {isExp}
-        setDesc = {setDesc}
-        setValue = {setValue}
-        setIsExp = {setIsExp}/>
+        isOpen={isOpen} {...entry} />
     </Container>
   );
 }
 
 export default App;
-
-var initialEntries = [
-  {
-    id : 1,
-    desc : 'Work Income',
-    value : 10000.00,
-    isExp : false
-  },
-  {
-    id : 2,
-    desc : 'Water Bill',
-    value : 100.00,
-    isExp : true
-  },
-  {
-    id : 3,
-    desc : 'Rent',
-    value : 5000.00,
-    isExp : true
-  },
-  {
-    id : 4,  
-    desc : 'Electricity Bill',
-    value : 550.00,
-    isExp : true
-  }
-]

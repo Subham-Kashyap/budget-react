@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "desc": "Work Income"
+    },
+    {
+      "id": "2",
+      "desc": "Water Bill"
+    },
+    {
+      "id": "3",
+      "desc": "Rent"
+    },
+    {
+      "id": "4",
+      "desc": "Electricity Bill"
+    },
+    {
+      "id": "5",
+      "desc": "Diesel"
+    },
+    {
+      "id": "f9ccc883-2aac-459d-a5a5-4347def21aa8",
+      "desc": "Halwa"
+    },
+    {
+      "id": "ab5bc2ca-214a-4697-a533-68e926448d43",
+      "desc": "Jalwa"
+    },
+    {
+      "id": "23fb0cd7-6b44-49eb-9ada-6ec9f403ca99",
+      "desc": "Talwa"
+    }
+  ],
+  "values": [
+    {
+      "id": "1",
+      "value": 10000,
+      "isExp": false
+    },
+    {
+      "id": "2",
+      "value": 100,
+      "isExp": true
+    },
+    {
+      "id": "3",
+      "value": 5000,
+      "isExp": true
+    },
+    {
+      "id": "4",
+      "value": 550,
+      "isExp": true
+    },
+    {
+      "id": "5",
+      "value": 2000,
+      "isExp": true
+    },
+    {
+      "id": "f9ccc883-2aac-459d-a5a5-4347def21aa8",
+      "value": "100",
+      "isExp": true
+    },
+    {
+      "id": "ab5bc2ca-214a-4697-a533-68e926448d43",
+      "value": "100",
+      "isExp": false
+    },
+    {
+      "id": "23fb0cd7-6b44-49eb-9ada-6ec9f403ca99",
+      "value": "200",
+      "isExp": true
+    }
+  ]
+}
